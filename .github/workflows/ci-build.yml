@@ -37,17 +37,17 @@ jobs:
 
       # 6 Build Docker image
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/weather-microservice:sec .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/tempwindx:sec .
 
       # 5 Trivy Security Scan
       - name: Scan Docker image with Trivy
         uses: aquasecurity/trivy-action@0.19.0
         with:
-          image-ref: ${{ secrets.DOCKER_USERNAME }}/weather-microservice:sec
+          image-ref: ${{ secrets.DOCKER_USERNAME }}/tempwindx:sec
           format: 'table'
           severity: 'CRITICAL,HIGH'
           exit-code: '0'  # change to '1' if you want pipeline to fail on vulnerabilities
 
       # 7 Push Docker image to Docker Hub
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/weather-microservice:sec
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/tempwindx:sec
