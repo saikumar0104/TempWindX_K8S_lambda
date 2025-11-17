@@ -39,7 +39,7 @@ jobs:
       # Apply namespaces
       - name: Apply Namespaces
         run: |
-          kubectl apply -f k8s/namespaces/
+          kubectl apply -f k8s/
 
       # Apply monitoring stack
       - name: Apply Monitoring Stack
@@ -49,7 +49,7 @@ jobs:
       # Apply microservice
       - name: Deploy Microservice
         run: |
-          kubectl apply -f k8s/microservices/
+          kubectl apply -f k8s/weather-app/
 
       # Show external URLs
       - name: Show Application URLs
@@ -62,15 +62,15 @@ jobs:
           echo ""
 
           echo " Pushgateway URL:"
-          kubectl get svc -n monitoring pushgateway-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          kubectl get svc -n monitoring pushgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
           echo ""
 
           echo " Prometheus URL:"
-          kubectl get svc -n monitoring prometheus-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          kubectl get svc -n monitoring prometheus -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
           echo ""
 
           echo " Grafana URL:"
-          kubectl get svc -n monitoring grafana-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          kubectl get svc -n monitoring grafana -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
           echo ""
 
           echo "==========================================================="
