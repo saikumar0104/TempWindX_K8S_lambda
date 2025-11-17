@@ -4,4 +4,4 @@ metadata:
   name: weather-config
   namespace: weather
 data:
-  SPRING_DATASOURCE_URL: "jdbc:postgresql://RDS_ENDPOINT_PLACEHOLDER:5432/testdb"
+  SPRING_DATASOURCE_URL: "jdbc:postgresql://tempwindx-rds-instance.cps4c4ko8ic6.ap-south-1.rds.amazonaws.com:5432/testdb"

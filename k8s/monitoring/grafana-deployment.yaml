@@ -22,7 +22,7 @@ spec:
             - name: GF_DATABASE_TYPE
               value: "postgres"
             - name: GF_DATABASE_HOST
-              value: "RDS_ENDPOINT_PLACEHOLDER"
+              value: "tempwindx-rds-instance.cps4c4ko8ic6.ap-south-1.rds.amazonaws.com"
             - name: GF_DATABASE_PORT
               value: "5432"  
             - name: GF_DATABASE_NAME
