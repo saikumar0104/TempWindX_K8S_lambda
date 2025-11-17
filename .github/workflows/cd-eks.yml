@@ -39,7 +39,7 @@ jobs:
       # Apply namespaces
       - name: Apply Namespaces
         run: |
-          kubectl apply -f k8s/
+          kubectl apply -f k8s/namespace.yaml
 
       # Apply monitoring stack
       - name: Apply Monitoring Stack
