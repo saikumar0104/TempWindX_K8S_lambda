@@ -43,5 +43,5 @@ jobs:
         id: tf-output
         working-directory: Infra_provisioning
         run: |
-          ENDPOINT=$(terraform output -raw rds_endpoint)
-          echo "rds_endpoint=$ENDPOINT" >> $GITHUB_OUTPUT
+          ENDPOINT=$(terraform output -raw rds_endpoint | tr -d '\n')
+          printf "rds_endpoint=%s\n" "$ENDPOINT" >> $GITHUB_OUTPUT
