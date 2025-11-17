@@ -28,20 +28,20 @@ jobs:
           aws-region: ap-south-1
 
       - name: Init Terraform
-        working-directory: infra
+        working-directory: Infra_provisioning
         run: terraform init
 
       - name: Plan Terraform
-        working-directory: infra
+        working-directory: Infra_provisioning
         run: terraform plan -out=tfplan
 
       - name: Apply Terraform
-        working-directory: infra
+        working-directory: Infra_provisioning
         run: terraform apply -auto-approve tfplan
 
       - name: Save Terraform Outputs for CD
         id: tf-output
-        working-directory: infra
+        working-directory: Infra_provisioning
         run: |
           ENDPOINT=$(terraform output -raw rds_endpoint)
           echo "rds_endpoint=$ENDPOINT" >> $GITHUB_OUTPUT
