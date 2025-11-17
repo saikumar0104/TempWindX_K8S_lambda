@@ -1,0 +1,76 @@
+name: CD to EKS
+
+on:
+  workflow_dispatch:
+          
+#  push:
+#    branches: [ main ]
+#    paths:
+#      - "k8s/**"
+
+jobs:
+  deploy:
+    name: Deploy to EKS
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Configure AWS
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ap-south-1
+
+      # Update kubeconfig to connect to EKS cluster
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --region ap-south-1 --name prod-eks
+
+      # Replace RDS endpoint dynamically in K8s ConfigMap/Secret
+      - name: Substitute Environment Variables
+        run: |
+          RDS_ENDPOINT="${{ secrets.RDS_ENDPOINT }}"
+          find k8s -type f -name "*.yaml" -exec sed -i "s|RDS_ENDPOINT_PLACEHOLDER|$RDS_ENDPOINT|g" {} \;
+
+      # Apply namespaces
+      - name: Apply Namespaces
+        run: |
+          kubectl apply -f k8s/namespaces/
+
+      # Apply monitoring stack
+      - name: Apply Monitoring Stack
+        run: |
+          kubectl apply -f k8s/monitoring/
+
+      # Apply microservice
+      - name: Deploy Microservice
+        run: |
+          kubectl apply -f k8s/microservices/
+
+      # Show external URLs
+      - name: Show Application URLs
+        run: |
+          echo "==================== SERVICE ENDPOINTS ===================="
+
+          echo ""
+          echo " Weather App URL:"
+          kubectl get svc -n weather weather-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          echo ""
+
+          echo " Pushgateway URL:"
+          kubectl get svc -n monitoring pushgateway-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          echo ""
+
+          echo " Prometheus URL:"
+          kubectl get svc -n monitoring prometheus-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          echo ""
+
+          echo " Grafana URL:"
+          kubectl get svc -n monitoring grafana-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
+          echo ""
+
+          echo "==========================================================="
