@@ -28,7 +28,7 @@ jobs:
       # Update kubeconfig to connect to EKS cluster
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --region ap-south-1 --name prod-eks
+          aws eks update-kubeconfig --region ap-south-1 --name tempwindx-eks
 
       # Replace RDS endpoint dynamically in K8s ConfigMap/Secret
       - name: Substitute Environment Variables
