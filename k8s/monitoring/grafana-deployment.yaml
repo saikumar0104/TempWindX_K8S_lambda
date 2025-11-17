@@ -18,16 +18,3 @@ spec:
           image: grafana/grafana:latest
           ports:
             - containerPort: 3000
-          env:
-            - name: GF_DATABASE_TYPE
-              value: "postgres"
-            - name: GF_DATABASE_HOST
-              value: "tempwindx-rds-instance.cps4c4ko8ic6.ap-south-1.rds.amazonaws.com"
-            - name: GF_DATABASE_PORT
-              value: "5432"  
-            - name: GF_DATABASE_NAME
-              value: "testdb"
-            - name: GF_DATABASE_USER
-              value: "admin123"
-            - name: GF_DATABASE_PASSWORD
-              value: "Admin123"

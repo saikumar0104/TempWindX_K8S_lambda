@@ -41,15 +41,33 @@ jobs:
         run: |
           kubectl apply -f k8s/namespace.yaml
 
-      # Apply monitoring stack
-      - name: Apply Monitoring Stack
+      # Deploy Pushgateway First
+      - name: Deploy Pushgateway
         run: |
-          kubectl apply -f k8s/monitoring/
+          kubectl apply -f k8s/monitoring/pushgateway-deployment.yaml
+          kubectl apply -f k8s/monitoring/pushgateway-service.yaml
 
-      # Apply microservice
-      - name: Deploy Microservice
+      # Deploy Prometheus Second
+      - name: Deploy Prometheus
         run: |
-          kubectl apply -f k8s/weather-app/
+          kubectl apply -f k8s/monitoring/prometheus-config.yaml
+          kubectl apply -f k8s/monitoring/prometheus-deployment.yaml
+          kubectl apply -f k8s/monitoring/prometheus-service.yaml          
+
+      # Deploy Grafana Last
+      - name: Deploy Grafana
+        run: |
+          kubectl apply -f k8s/monitoring/grafana-deployment.yaml
+          kubectl apply -f k8s/monitoring/grafana-service.yaml
+
+      # Deploy Weather App (ConfigMap, Secret, Deployment, Service)
+      - name: Deploy Weather Microservice
+        run: |
+          kubectl apply -f k8s/weather-app/configmap.yaml
+          kubectl apply -f k8s/weather-app/secret.yaml
+          kubectl apply -f k8s/weather-app/deployment.yaml
+          kubectl apply -f k8s/weather-app/service.yaml
+
 
       # Show external URLs
       - name: Show Application URLs
@@ -57,10 +75,6 @@ jobs:
           echo "==================== SERVICE ENDPOINTS ===================="
 
           echo ""
-          echo " Weather App URL:"
-          kubectl get svc -n weather weather-service -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
-          echo ""
-
           echo " Pushgateway URL:"
           kubectl get svc -n monitoring pushgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'
           echo ""
