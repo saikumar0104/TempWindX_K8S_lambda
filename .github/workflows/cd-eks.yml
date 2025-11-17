@@ -1,4 +1,4 @@
-name: CD to EKS
+name: Deploying services on EKS
 
 on:
   workflow_dispatch:
