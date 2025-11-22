@@ -19,6 +19,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ap-south-1
 
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6.6
+
       # 2. Get kubeconfig so kubectl can delete K8s resources
       - name: Setup EKS kubeconfig
         run: |
@@ -32,12 +37,8 @@ jobs:
           kubectl delete -f k8s/namespace.yaml --ignore-not-found
         continue-on-error: true
 
-      # 4. Delete EKS cluster
-      - name: Delete EKS Cluster
-        run: |
-          eksctl delete cluster --name tempwindx-eks --region ap-south-1 || true
 
-      # 5. Terraform destroy for RDS + VPC
+      # 5. Terraform destroy for RDS + VPC + K8S
       - name: Terraform Destroy
         working-directory: ./Infra_provisioning
         run: |
