@@ -1,31 +1,45 @@
-name: Destroy Infra
+name: destroy-infra
 
 on:
-  workflow_dispatch:   # Manually triggered only for safety
+  workflow_dispatch:
 
 jobs:
   destroy:
-    name: Terraform Destroy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-
+      # 1. Configure AWS
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      - name: Terraform Init
-        working-directory: Infra_provisioning
-        run: terraform init
+      # 2. Get kubeconfig so kubectl can delete K8s resources
+      - name: Setup EKS kubeconfig
+        run: |
+          aws eks update-kubeconfig --name my-eks-cluster --region ap-south-1 || true
 
+      # 3. DELETE K8S resources first (VERY IMPORTANT)
+      - name: Delete Kubernetes resources
+        run: |
+          kubectl delete -f k8s/weather-app/ --ignore-not-found
+          kubectl delete -f k8s/monitoring/ --ignore-not-found
+          kubectl delete -f k8s/namespace.yaml --ignore-not-found
+        continue-on-error: true
+
+      # 4. Delete EKS cluster
+      - name: Delete EKS Cluster
+        run: |
+          eksctl delete cluster --name my-eks-cluster --region ap-south-1 || true
+
+      # 5. Terraform destroy for RDS + VPC
       - name: Terraform Destroy
-        working-directory: Infra_provisioning
-        run: terraform destroy -auto-approve
+        working-directory: ./Infra_provisioning
+        run: |
+          terraform init
+          terraform destroy -auto-approve
