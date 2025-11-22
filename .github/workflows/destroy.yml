@@ -22,7 +22,7 @@ jobs:
       # 2. Get kubeconfig so kubectl can delete K8s resources
       - name: Setup EKS kubeconfig
         run: |
-          aws eks update-kubeconfig --name my-eks-cluster --region ap-south-1 || true
+          aws eks update-kubeconfig --name tempwindx-eks --region ap-south-1 || true
 
       # 3. DELETE K8S resources first (VERY IMPORTANT)
       - name: Delete Kubernetes resources
@@ -35,7 +35,7 @@ jobs:
       # 4. Delete EKS cluster
       - name: Delete EKS Cluster
         run: |
-          eksctl delete cluster --name my-eks-cluster --region ap-south-1 || true
+          eksctl delete cluster --name tempwindx-eks --region ap-south-1 || true
 
       # 5. Terraform destroy for RDS + VPC
       - name: Terraform Destroy
