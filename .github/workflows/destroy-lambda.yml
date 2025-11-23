@@ -30,7 +30,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Destroy
-        working-directory: stack-2/lambda-code/terraform
+        working-directory: ./lambda-code/terraform
         run: terraform destroy -auto-approve \
           -var "pg_host=${{ secrets.PG_HOST }}" \
           -var "pg_port=${{ secrets.PG_PORT }}" \
