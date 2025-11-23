@@ -17,7 +17,7 @@ jobs:
         python-version: '3.12'
 
     - name: Install dependencies and create package.zip
-      working-directory: stack-2/lambda-code
+      working-directory: ./lambda-code
       run: |
         pip install -r requirements.txt -t ./package
         cp app.py package/
