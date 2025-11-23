@@ -42,7 +42,7 @@ resource "aws_lambda_function" "weather_lambda" {
   role          = aws_iam_role.lambda_role.arn
   runtime       = "python3.12"
   handler       = "app.lambda_handler"
-  architecture  = "x86_64"  
+  architectures = "x86_64"  
 # POINTS TO package.zip CREATED BY GITHUB ACTIONS
   filename         = "${path.module}/../package.zip"
   source_code_hash = filebase64sha256("${path.module}/../package.zip")
