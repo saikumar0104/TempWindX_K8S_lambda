@@ -34,7 +34,7 @@ jobs:
         run: |
           terraform destroy -auto-approve \
             -var "pg_db=${{ secrets.PG_DB }}" \
-            -var "pg_host=${{ secrets.PG_HOST }}" \ 
+            -var "pg_host=${{ secrets.PG_HOST }}" \
             -var "pg_port=${{ secrets.PG_PORT }}" \
             -var "pg_user=${{ secrets.PG_USER }}" \
             -var "pg_pass=${{ secrets.PG_PASS }}" \
