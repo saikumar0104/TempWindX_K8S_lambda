@@ -1,0 +1,33 @@
+name: 6.Destroy Lambda Stack
+
+on:
+  workflow_dispatch:
+
+jobs:
+  destroy:
+    name: Destroy Lambda Infrastructure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.7.7
+
+      - name: Terraform Init
+        working-directory: ./lambda-code/terraform
+        run: terraform init
+
+      - name: Terraform Destroy
+        working-directory: stack-2/lambda-code/terraform
+        run: terraform destroy -auto-approve \
+          -var "pg_host=${{ secrets.PG_HOST }}" \
+          -var "pg_port=${{ secrets.PG_PORT }}" \
+          -var "pg_db=${{ secrets.PG_DB }}" \
+          -var "pg_user=${{ secrets.PG_USER }}" \
+          -var "pg_pass=${{ secrets.PG_PASS }}" \
+          -var "pushgateway_url=${{ secrets.PUSHGATEWAY_URL }}"
+
