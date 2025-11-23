@@ -31,11 +31,5 @@ jobs:
 
       - name: Terraform Destroy
         working-directory: ./lambda-code/terraform
-        run: terraform destroy -auto-approve \
-          -var "pg_host=${{ secrets.PG_HOST }}" \
-          -var "pg_port=${{ secrets.PG_PORT }}" \
-          -var "pg_db=${{ secrets.PG_DB }}" \
-          -var "pg_user=${{ secrets.PG_USER }}" \
-          -var "pg_pass=${{ secrets.PG_PASS }}" \
-          -var "pushgateway_url=${{ secrets.PUSHGATEWAY_URL }}"
+        run: terraform destroy -auto-approve
 
