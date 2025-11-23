@@ -25,6 +25,13 @@ jobs:
         with:
           terraform_version: 1.6.6
 
+      - name: Build Lambda package
+        working-directory: ./lambda-code
+        run: |
+          pip install -r requirements.txt -t ./package
+          cp app.py package/
+          cd package && zip -r ../package.zip .    
+
       - name: Terraform Init
         working-directory: ./lambda-code/terraform
         run: terraform init

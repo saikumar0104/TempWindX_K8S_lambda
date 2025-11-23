@@ -37,13 +37,6 @@ resource "aws_lambda_function" "weather_lambda" {
   timeout = 30
   memory_size = 256
 
-  lifecycle {
-    ignore_changes = [
-      filename,
-      source_code_hash
-    ]
-  }
-
 
   # Environment variables → Your app.py uses these
   environment {
