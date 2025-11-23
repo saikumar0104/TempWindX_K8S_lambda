@@ -23,6 +23,14 @@ jobs:
         cp app.py package/
         cd package && zip -r ../package.zip .
 
+    - name: Build layer.zip
+      working-directory: ./lambda-code
+      run: |
+        mkdir -p layer/python
+        pip install -r requirements.txt -t layer/python
+        cd layer && zip -r ../layer.zip .
+
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
