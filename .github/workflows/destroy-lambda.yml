@@ -19,18 +19,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
           aws-region: ap-south-1
 
-
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.6.6
-
-      - name: Build Lambda package
-        working-directory: ./lambda-code
-        run: |
-          pip install -r requirements.txt -t ./package
-          cp app.py package/
-          cd package && zip -r ../package.zip .    
 
       - name: Terraform Init
         working-directory: ./lambda-code/terraform
@@ -40,9 +32,9 @@ jobs:
         working-directory: ./lambda-code/terraform
         run: |
           terraform destroy -auto-approve \
-            -var "pg_db=${{ secrets.PG_DB }}" \
             -var "pg_host=${{ secrets.PG_HOST }}" \
             -var "pg_port=${{ secrets.PG_PORT }}" \
+            -var "pg_db=${{ secrets.PG_DB }}" \
             -var "pg_user=${{ secrets.PG_USER }}" \
             -var "pg_pass=${{ secrets.PG_PASS }}" \
             -var "pushgateway_url=${{ secrets.PUSHGATEWAY_URL }}"
