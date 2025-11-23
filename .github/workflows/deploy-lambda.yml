@@ -1,10 +1,7 @@
 name: 5.Deploy Lambda
 
 on:
-  push:
-    branches: [ "main" ]
-    paths:
-      - "stack-2/lambda-code/**"
+  workflow_dispatch:
 
 jobs:
   deploy:
