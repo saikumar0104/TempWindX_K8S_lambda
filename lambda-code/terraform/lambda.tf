@@ -45,7 +45,6 @@ resource "aws_lambda_function" "weather_lambda" {
   architectures = ["x86_64"]  
 # POINTS TO package.zip CREATED BY GITHUB ACTIONS
   filename         = "${path.module}/../package.zip"
-  source_code_hash = filebase64sha256("${path.module}/../package.zip")
 
   timeout = 30
   memory_size = 256
