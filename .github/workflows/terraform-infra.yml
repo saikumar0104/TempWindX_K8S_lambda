@@ -1,4 +1,4 @@
-name: Terraform Infra
+name: 2.Terraform Infra
 
 on:
   workflow_dispatch:

@@ -1,5 +1,5 @@
 # .github/workflows/maven-docker.yml
-name: Maven Build & Docker
+name: 1.Maven Build & Docker
 
 # Trigger on push to main branch or manual trigger
 #on:

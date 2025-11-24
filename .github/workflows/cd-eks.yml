@@ -1,4 +1,4 @@
-name: Deploying services on EKS
+name: 3.Deploying services on EKS
 
 on:
   workflow_dispatch:
