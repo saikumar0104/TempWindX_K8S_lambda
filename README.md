@@ -1,4 +1,4 @@
-# 🌦️ TempWindX - Weather Microservice
+# 🌦️ TempWindX - Weather Monitoring service
 
 TempWindX is a weather microservice that fetches real-time weather data from [metio.com](https://metio.com) API, processes this data, and writes it to a PostgreSQL database.
 
@@ -134,6 +134,17 @@ Applies manifests:
 ### 🧹 6. Destroy Lambda (`.github/workflows/destroy-lambda.yml`)
 -Runs terraform destroy for Lambda stack only
 
+### Makesure GitHub Secrets are properly configured:
+- AWS_ACCESS_KEY
+- AWS_SECRET_KEY
+- DOCKER_PASSWORD
+- DOCKER_USERNAME
+- PG_DB
+- PG_HOST
+- PG_PASS
+- PG_PORT
+- PG_USER
+- PUSHGATEWAY_URL
 
 ------------------------------
 🔐 Security & Best Practices 
@@ -147,9 +158,11 @@ To check whether data is pushed to pushgateway:
 wget -qO- http://<Pushgateway>:9091/metrics | grep weather
 
 Prometheus Scraping data:
+
 <img width="1360" height="470" alt="image" src="https://github.com/user-attachments/assets/1d5212e3-3f30-470f-8621-3e1477f3601e" />
 
 <img width="1356" height="478" alt="image" src="https://github.com/user-attachments/assets/33310a43-6f6f-4863-9a31-25b5ed4ca715" />
 
 Visualize data from grafana:
+
 <img width="800" height="396" alt="image" src="https://github.com/user-attachments/assets/c1c0d471-40c5-4720-86b7-2d101b4da87b" />
