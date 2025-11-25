@@ -9,10 +9,11 @@ TempWindX
 │       ├── 1-ci-build.yml                 # Build Spring Boot + Docker
 │       ├── 2-cd-eks.yml                   # Apply K8s manifests
 │       ├── 3-terraform-infra.yml          # Provision VPC + RDS + EKS
+|       ├── 4-destroy.yml                  # destroy the Infra
 │       ├── 5-deploy-lambda.yml            # Deploy Lambda + Layer
 │       └── 6-destroy-lambda.yml           # Destroy Lambda infra
 
-├── infra
+├── Infra_provisioning
 │   ├── main.tf                            # Calls all modules
 │   ├── variables.tf
 │   ├── outputs.tf
