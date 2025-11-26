@@ -18,6 +18,7 @@ Reads data from PostgreSQL → converts → pushes metrics to Prometheus Pushgat
 
 Diagram:
 
+<img width="2871" height="1998" alt="image" src="https://github.com/user-attachments/assets/c09d515d-e32e-4c64-a401-67ab8572d0f0" />
 
 ## 📁 Project Structure
 TempWindX
